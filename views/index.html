@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Timestamp Microservice</title>
+    <link
+      rel="shortcut icon"
+      href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Timestamp Microservice</h1>
+    <hr />
+    <div class="container">
+      <h2>TIme output</h2>
+      <p id="unix"></p>
+      <p id="utc"></p>
+      <form>
+        <input
+          type="text"
+          placeholder="Enter value either in number or in (YYYY-MM-dd)"
+          value=""
+          id="inputValue"
+        />
+        <button id="show-time">showTime</button>
+      </form>
+    </div>
+    <div class="footer">
+      <p>By <a href="https://github.com/gakiokevin/">Kevin</a></p>
+    </div>
+    <script>
+      let btn = document.getElementById("show-time");
+
+      btn.addEventListener("click", showTime);
+
+      async function showTime(e) {
+        e.preventDefault();
+        try {
+          let date_input = document.getElementById("inputValue");
+          let d = date_input.value;
+
+          let data = await fetch(`http://localhost:5000/api/${d}`);
+          let results = await data.json();
+          let unix = document.getElementById("unix");
+          let utc = document.getElementById("utc");
+          unix.textContent = results.unix;
+          utc.textContent = results.utc;
+          date_input.value = "";
+          d = "";
+          console.log(results);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    </script>
+  </body>
+</html>
