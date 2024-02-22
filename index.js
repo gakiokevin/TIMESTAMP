@@ -1,32 +1,72 @@
-// index.js
-// where your node app starts
+const express =  require('express')
+const cors = require('cors')
 
-// init project
-var express = require('express');
-var app = express();
+const moment =  require('moment-timezone')
+const app = express();
+app.use(cors())
+const PORT = process.env.PORT || 5000
 
-// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC 
-var cors = require('cors');
-app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
-
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
-
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
-});
+app.get('/api/:date?',(req,res)=>{
 
 
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
-});
+  try {
+    const dateInput = req.params.date || req.query.date;
+    const results = unixAndUtc(dateInput);
+    res.json(results);
+  } catch (error) {
+    res.status(400).json({ error: error.message }); // Return 400 Bad Request with error message
+  }
+  
+})
 
 
 
-// Listen on port set in environment variable or default to 3000
-var listener = app.listen(process.env.PORT || 3000, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
+function unixAndUtc(input){
+  let unix
+  let utc
+
+  if(!input){
+    return getCurrentTime()
+  }
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+
+  if (dateRegex.test(input)){
+    input +="T00:00:00"
+  }
+  const parsedDate = moment(input).utc()
+
+  if (parsedDate.isValid()) {
+    unix = parsedDate.valueOf();
+    utc = parsedDate.toDate();
+  }
+  else {
+    return { error : "Invalid Date" }
+  }
+return {
+  unix:unix,
+  utc: utc.toUTCString()
+}
+
+}
+
+
+function getCurrentTime(){
+
+    const currentTimestamp = Date.now();
+    const currentUtcTime = new Date(currentTimestamp).toUTCString();
+
+  return {
+      unix: currentTimestamp,
+      utc: currentUtcTime
+  };
+
+
+
+}
+
+
+
+
+
+
+app.listen(PORT,()=>console.log(`listening to port ${PORT}`))
