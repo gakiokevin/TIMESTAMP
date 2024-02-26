@@ -6,7 +6,7 @@ const app = express();
 app.use(cors())
 const PORT = process.env.PORT || 5000
 
-app.get('/api/:date?',(req,res)=>{
+app.get('https://timestamp-one.vercel.app/api/:date?',(req,res)=>{
 
 
   try {
