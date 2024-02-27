@@ -47,7 +47,7 @@
           let date_input = document.getElementById("inputValue");
           let d = date_input.value;
 
-          let data = await fetch(`http://localhost:5000/api/${d}`);
+          let data = await fetch(`https://timestamp-nc6f8c0mp-gakiokevin.vercel.app/api/${d}`);
           let results = await data.json();
           let unix = document.getElementById("unix");
           let utc = document.getElementById("utc");
