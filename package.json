@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "description": "An FCC Backend Challenge",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
-    "start": "node ./routes/index",
-    "dev": "nodemon ./routes/index"
+    "start": "node index",
+    "dev":  "nodemon index"
   },
   "dependencies": {
     "cors": "^2.8.5",
