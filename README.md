@@ -1,3 +1,23 @@
-# Timestamp Microservice
+# Date API
 
-This is the boilerplate code for the Timestamp Microservice project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/timestamp-microservice
+## Overview
+
+This API accepts a date in a specified format and returns a JSON object containing the UTC time in both UNIX timestamp and the requested format.
+
+## Usage
+
+### Endpoint
+
+- **URL:** `/api/:date`
+- **Method:** GET
+
+### Parameters
+
+- `date`: The input date in the specified format.
+
+### Example
+
+#### Request
+
+```http
+GET /api/2023-03-15T12:30:00
