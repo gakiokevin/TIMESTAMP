@@ -17,20 +17,20 @@ app.get("/", function (req, res) {
 app.get('/api/:date?',(req,res)=>{
    const { date } = req.params
    if(date){
-      const ismilliseconds = parseInt(date,10)
-      if(!isNaN(ismilliseconds)){
-         const d = new Date(ismilliseconds)
-          return res.json({unix:ismilliseconds,utc:d.toUTCString()})
+      const validDate = new Date(date)
+      if(!isNaN(validDate.getTime())){
+       res.json({unix:validDate.getTime(),utc:validDate.toUTCString()})
       } else {
-         const validDate =  new Date(date)
-         if(isNaN(validDate.getTime())){
+         const milliseconds = Number(date)
+         if(!isNaN(milliseconds)){
+            const d = new Date(milliseconds)
+            res.json({unix:milliseconds,utc:d.toUTCString()})
+         } else {
             return res.json({ error : "Invalid Date" })
-         }else{
-      
-            return res.json({unix:validDate.getTime(),utc:validDate.toUTCString(),})
          }
-
-      }
+                    
+          
+         }    
       
    }else {
       const currentTime =  new Date().toUTCString();
