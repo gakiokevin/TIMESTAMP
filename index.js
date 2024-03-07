@@ -30,7 +30,7 @@ app.get('/api/:date?',(req,res)=>{
             return res.json({unix:validDate.getTime(),utc:validDate.toUTCString(),})
          }
 
-      }   
+      }
       
    }else {
       const currentTime =  new Date().toUTCString();
